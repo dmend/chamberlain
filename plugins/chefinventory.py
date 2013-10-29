@@ -82,7 +82,7 @@ class ChefInventory:
                 ]
         print(json.dumps(resp))
 
-    def _node_variables(self):
+    def _node_variables(self, node):
         """Return variables for a specific node.
         
         We're not using this feature, so we return an empty hash instead.
@@ -93,8 +93,10 @@ class ChefInventory:
         args = self.parser.parse_args()
         if args.list:
             self._list_all_nodes()
+        elif args.host:
+            self._node_variables(args.host)
         else:
-            self._node_variables()
+            print self.parser.print_help()
 
 
 def main():
