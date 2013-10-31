@@ -54,8 +54,9 @@ class ChefInventory:
                 workers = u'{}_worker'.format(env)
                 dbs = u'{}_db'.format(env)
                 queues = u'{}_queues'.format(env)
+                repose = u'{}_repose'.format(env)
 
-                resp[env] = {u'children': [apis, workers, dbs, queues]}
+                resp[env] = {u'children': [apis, workers, dbs, queues, repose]}
                 resp[apis] = [n[u'automatic'][u'ipaddress'] for n in nodes if (
                     n[u'chef_environment'] == env and \
                     u'roles' in n[u'automatic'].keys() and \
@@ -78,6 +79,13 @@ class ChefInventory:
                         n[u'chef_environment'] == env and \
                         u'roles' in n[u'automatic'].keys() and \
                         u'barbican-queue' in n[u'automatic'][u'roles']
+                    )
+                ]
+                resp[repose] = [n[u'automatic'][u'ipaddress'] for n in nodes \
+                    if (
+                        n[u'chef_environment'] == env and \
+                        u'roles' in n[u'automatic'].keys() and \
+                        u'barbican-repose' in n[u'automatic'][u'roles']
                     )
                 ]
         print(json.dumps(resp))
